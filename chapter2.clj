@@ -7,3 +7,7 @@
 (comment
   (defn fib [n]
     (nth (map first (iterate (fn [[a b]] [b (+ a b)]) [0 1])) (dec n))))
+
+;; Exercise 2
+(defn is-sorted [coll func]
+  (every? true? (map func (partition 2 1 coll))))
