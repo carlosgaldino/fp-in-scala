@@ -59,3 +59,7 @@
 ;; Exercise 12
 (defn rreverse [coll]
   (fold-l coll [] #(cons %2 %1)))
+
+;; Exercise 14
+(defn append [xs zs]
+  (fold-r xs zs #(cons %1 %2)))
