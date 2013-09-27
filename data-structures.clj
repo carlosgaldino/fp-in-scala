@@ -63,3 +63,27 @@
 ;; Exercise 14
 (defn append [xs zs]
   (fold-r xs zs #(cons %1 %2)))
+
+;; Exercise 16
+(defn plus-one [xs]
+  (fold-r xs [] #(cons (+ 1 %1) %2)))
+
+;; Exercise 17
+(defn double-to-string [xs]
+  (fold-r xs [(str 0.0)] #(cons (str %1) %2)))
+
+;; Exercise 18
+(defn mapp [xs func]
+  (fold-r xs [] #(cons (func %1) %2)))
+
+;; Exercise 19
+(defn filterr [xs pred]
+  (fold-r xs [] #(if (pred %1) (cons %1 %2) %2)))
+
+;; Exercise 20
+(defn flat-map [xs func]
+  (apply concat (mapp xs func)))
+
+;; Exercise 21
+(defn filter-via-flat-map [xs pred]
+  (flat-map xs #(if (pred %1) (cons %1 []) nil)))
