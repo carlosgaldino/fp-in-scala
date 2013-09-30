@@ -87,3 +87,16 @@
 ;; Exercise 21
 (defn filter-via-flat-map [xs pred]
   (flat-map xs #(if (pred %1) (cons %1 []) nil)))
+
+;; Exercise 22
+(defn add-lists [xs zs]
+  (fold-r xs [] #(cons (+ %1 (nth zs (.indexOf xs %1))) %2)))
+
+;; Exercise 23
+(defn zip-with [xs zs f]
+  (fold-r xs [] #(cons (f %1 (nth zs (.indexOf xs %1))) %2)))
+
+;; Or
+(comment
+  (defn zip-with [xs zs f]
+    (map f xs zs)))
