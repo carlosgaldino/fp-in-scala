@@ -100,3 +100,19 @@
 (comment
   (defn zip-with [xs zs f]
     (map f xs zs)))
+
+;; Exercise 24
+(defn starts-with [xs zs]
+  (if (empty? zs)
+    true
+    (if (empty? xs)
+      false
+      (if (= (first xs) (first zs))
+        (recur (tail xs) (tail zs))))))
+
+(defn has-subsequence [xs sub]
+  (if (empty? xs)
+    false
+    (if (starts-with xs sub)
+      true
+      (recur (tail xs) sub))))
