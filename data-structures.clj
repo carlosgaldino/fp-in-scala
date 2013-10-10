@@ -137,3 +137,8 @@
   (if (leaf? tree)
     1
     (+ 1 (size (left tree)) (size (right tree)))))
+
+(comment
+  (def tree (branch (leaf "blah") (branch (leaf "bleh") (leaf "meh"))))
+
+  (size tree))
