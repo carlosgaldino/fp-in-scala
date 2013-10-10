@@ -116,3 +116,24 @@
     (if (starts-with xs sub)
       true
       (recur (tail xs) sub))))
+
+;; Exercise 25
+(defn leaf [value]
+  { :value value })
+
+(defn branch [left right]
+  { :left left :right right })
+
+(defn leaf? [node]
+  (contains? node :value))
+
+(defn left [branch]
+  (:left branch))
+
+(defn right [branch]
+  (:right branch))
+
+(defn size [tree]
+  (if (leaf? tree)
+    1
+    (+ 1 (size (left tree)) (size (right tree)))))
