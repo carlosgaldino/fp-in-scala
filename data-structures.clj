@@ -188,3 +188,11 @@
 
 (defn depthf [tree]
   (foldt tree #(+ 1 (max %1 %2)) (constantly 1)))
+
+(defn maptf [f tree]
+  (foldt tree f #(branch %1 %2)))
+
+(comment
+  (def tree (branch (branch (branch (leaf 90) (leaf 10)) (leaf 10)) (branch (leaf 10) (leaf 99))))
+
+  (maptf #(leaf (+ 10 %)) tree))
