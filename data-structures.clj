@@ -142,3 +142,49 @@
   (def tree (branch (leaf "blah") (branch (leaf "bleh") (leaf "meh"))))
 
   (size tree))
+
+;; Exercise 26
+(defn value [node]
+  (:value node))
+
+(defn maximum [tree]
+  (if (leaf? tree)
+    (value tree)
+    (max (maximum (left tree)) (maximum (right tree)))))
+
+(comment
+  (def tree (branch (leaf 90) (branch (leaf 10) (leaf 99))))
+
+  (maximum tree))
+
+;; Exercise 27
+(defn depth [tree]
+  (if (leaf? tree)
+    1
+    (+ 1 (max (depth (left tree)) (depth (right tree))))))
+
+(comment
+  (def tree (branch (branch (branch (leaf 90) (leaf 10)) (leaf 10)) (branch (leaf 10) (leaf 99))))
+
+  (depth tree))
+
+;; Exercise 28
+(defn mapt [f tree]
+  (if (leaf? tree)
+    (leaf (f (value tree)))
+    (branch (mapt f (left tree)) (mapt f (right tree)))))
+
+;; Exercise 29
+(defn foldt [tree f g]
+  (if (leaf? tree)
+    (f (value tree))
+    (g (foldt (left tree) f g) (foldt (right tree) f g))))
+
+(defn sizef [tree]
+  (foldt tree #(+ 1 %1 %2) (constantly 1)))
+
+(defn maximumf [tree]
+  (foldt tree #(max %1 %2) #(identity %1)))
+
+(defn depthf [tree]
+  (foldt tree #(+ 1 (max %1 %2)) (constantly 1)))
