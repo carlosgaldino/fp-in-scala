@@ -1,8 +1,6 @@
-# Functional Programming in Scala (actually in Clojure)
+# Functional Programming in Scala
 
-These are my solutions for the exercises from the book: [Functional Programming
-in Scala][book].
-
-**I'm learning Clojure, so the code here might not be good or idiomatic.**
+I'm trying to learn Scala through the book [Functional Programming in
+Scala][book] and my solutions to its exercises are here.
 
 [book]: http://www.manning.com/bjarnason/
