@@ -34,6 +34,15 @@ object MyModule {
     else go(1, as(0))
   }
 
+  def curry[A, B, C](f: (A, B) => C): A => (B => C) =
+    a => b => f(a, b)
+
+  def uncurry[A, B, C](f: A => B => C): (A, B) => C =
+    (a, b) => f(a)(b)
+
+  def compose[A, B, C](f: B => C, g: A => B): A => C =
+    a => f(g(a))
+
   private def formatResult(name: String, x: Int, f: Int => Int): String = {
     val msg = "The %s of %d is %d."
     msg.format(name, x, f(x))
