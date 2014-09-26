@@ -44,6 +44,47 @@ object List {
     case Cons(y, ys) => Cons(y, init(ys))
   }
 
+  def foldRight[A, B](xs: List[A], z: B)(f: (A, B) => B): B = xs match {
+    case Nil => z
+    case Cons(y, ys) => f(y, foldRight(ys, z)(f))
+  }
+
+  def length[A](xs: List[A]): Int =
+    foldRight(xs, 0)((_, acc) => 1 + acc)
+
+  @annotation.tailrec
+  def foldLeft[A, B](xs: List[A], z: B)(f: (B, A) => B): B = xs match {
+    case Nil => z
+    case Cons(y, ys) => foldLeft(ys, f(z, y))(f)
+  }
+
+  def sumL(xs: List[Int]): Int =
+    foldLeft(xs, 0)(_ + _)
+
+  def productL(xs: List[Double]): Double =
+    foldLeft(xs, 1.0)(_ * _)
+
+  def lengthL[A](xs: List[A]): Int =
+    foldLeft(xs, 0)((acc, _) => 1 + acc)
+
+  def reverse[A](xs: List[A]): List[A] =
+    foldLeft(xs, List[A]())((acc, x) => Cons(x, acc))
+
+  def foldLeftViaRight[A, B](xs: List[A], z: B)(f: (B, A) => B): B =
+    foldRight(xs, (b:B) => b)((a, g) => b => g(f(b, a)))(z)
+
+  def foldRightViaLeft[A, B](xs: List[A], z: B)(f: (A, B) => B): B =
+    foldLeft(reverse(xs), z)((b, a) => f(a, b))
+
+  def appendL[A](xs: List[A], ys: List[A]): List[A] =
+    foldLeft(reverse(xs), ys)((b, a) => Cons(a, b))
+
+  def appendR[A](xs: List[A], ys: List[A]): List[A] =
+    foldRight(xs, ys)((a, b) => Cons(a, b))
+
+  def concat[A](xs: List[List[A]]): List[A] =
+    foldRight(xs, Nil:List[A])(appendR)
+
   def apply[A](xs: A*): List[A] =
     if (xs.isEmpty) Nil
     else Cons(xs.head, apply(xs.tail: _*))
