@@ -85,6 +85,48 @@ object List {
   def concat[A](xs: List[List[A]]): List[A] =
     foldRight(xs, Nil:List[A])(appendR)
 
+  def increment(xs: List[Int]): List[Int] =
+    foldRight(xs, Nil:List[Int])((y, ys) => Cons(y + 1, ys))
+
+  def doubleToString(ds: List[Double]): List[String] =
+    foldRight(ds, Nil:List[String])((x, xs) => Cons(x.toString, xs))
+
+  def map[A, B](xs: List[A])(f: A => B): List[B] =
+    foldRight(xs, Nil:List[B])((y, ys) => Cons(f(y), ys))
+
+  def filter[A](xs: List[A])(f: A => Boolean): List[A] =
+    foldRight(xs, Nil:List[A])((y, ys) => if (f(y)) Cons(y, ys) else ys)
+
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+    foldRight(as, Nil:List[B])((x, xs) => appendR(f(x), xs))
+
+  def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
+    flatMap(as)(x => if (f(x)) List(x) else Nil)
+
+  def addPairWise(as: List[Int], bs: List[Int]): List[Int] = (as, bs) match {
+    case (_, Nil) => Nil
+    case (Nil, _) => Nil
+    case (Cons(x, xs), Cons(y, ys)) => Cons(x + y, addPairWise(xs, ys))
+  }
+
+  def zipWith[A, B, C](as: List[A], bs: List[B])(f: (A, B) => C): List[C] = (as, bs) match {
+    case (_, Nil) => Nil
+    case (Nil, _) => Nil
+    case (Cons(x, xs), Cons(y, ys)) => Cons(f(x, y), zipWith(xs, ys)(f))
+  }
+
+  def startsWith[A](l: List[A], pre: List[A]): Boolean = (l, pre) match {
+    case (_, Nil) => true
+    case (Cons(x, xs), Cons(y, ys)) if x == y => startsWith(xs, ys)
+    case _ => false
+  }
+
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+    case Nil => false
+    case Cons(x, xs) if startsWith(sup, sub) => true
+    case Cons(x, xs) => hasSubsequence(xs, sub)
+  }
+
   def apply[A](xs: A*): List[A] =
     if (xs.isEmpty) Nil
     else Cons(xs.head, apply(xs.tail: _*))
